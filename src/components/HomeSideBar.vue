@@ -44,7 +44,8 @@
                 class="year-radio-group mt-2"
                 stacked
                 :options="years"
-              />{{ car_year }}
+              />
+              <!-- {{ car_year }} -->
             </div> 
 
             <!-- Fuel Type -->
@@ -69,7 +70,7 @@
               </div>
               </b-form-group>
      
-              {{ selectedFuleType }}
+              <!-- {{ selectedFuleType }} -->
             </div> 
             <!-- Kms Driven -->
             <div  class="mt-4">
@@ -83,14 +84,15 @@
                 @change="fetchKiloMeters(kilometers)"
                 :options="kilometers"
 
-              />{{ car_kms }}
+              />
+              <!-- {{ car_kms }} -->
             </div> 
-            <div>
+            <!-- <div>
               <b-form-checkbox
               checked="true">
 
               </b-form-checkbox>
-            </div>
+            </div> -->
             
           </b-card>
         </div>

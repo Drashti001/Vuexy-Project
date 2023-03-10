@@ -1,20 +1,22 @@
 <!-- modal -->
    <template>
 <b-row>
-    <b-modal :id="modalId" ref="my-modal" title="Edit Data" ok-title="Submit" @ok="handleEditSubmit">
+  <!-- {{ editCarProps}} -->
+    <b-modal :id="modalId" ref="my-modal" title="Edit Data" @ok="handleEditSubmit">
 
-     
-        <validation-observer ref="simpleRules">
+      
+        <validation-observer ref="simpleRules" >
             <!-- car details form -->
-            <form ref="form" @submit="handleEditSubmit">
+            <form ref="form" @submit.stop.prevent="handleEditSubmit">
 
                 <!-- car name input -->
-                {{ editCarProps.car_fuel_type }}
+                <!-- {{ editCarProps.car_desc}}--> 
+                 <!-- {{ editCarProps.car_fuel_type }}  -->
                 <b-col class="mb-1">
 
                     <b-form-group label="Enter Car Name" label-for="car_title">
 
-                        <validation-provider #default="{ errors }" rules="required" name="Car Name">
+                        <validation-provider #default="{ errors }" rules="required" >
                             <b-form-input id="name-input" v-model="editCarProps.car_title" :state="errors.length > 0 ? false: null" required />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -25,7 +27,7 @@
                 <b-col class="mb-1">
                     <b-form-group label="Enter Car Model" label-for="car_model" invalid-feedback="Model Name is required">
 
-                        <validation-provider #default="{ errors }" rules="required" name="Car Model">
+                        <validation-provider #default="{ errors }" rules="required" >
                             <b-form-input id="name-input" v-model="editCarProps.car_model" required />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -35,12 +37,11 @@
                 <b-col class="mb-1">
                     <b-form-group label="Enter Car Fuel Type" label-for="car_fuel_type" invalid-feedback="Name is required">
 
-                        <validation-provider #default="{ errors }" rules="required" name="Car Model">
+                        <validation-provider #default="{ errors }" rules="required" >
                             <!-- {{ selected.car_fuel_type }} -->
                             <!-- <b-form-select v-model="editCarProps.selected.options" :options="options" /> -->
-                            <b-form-select v-model="fuel_type" :options="options" />
-                            <!-- <b-form-select v-model="editCarProps.selected" :options="options" />
-                            <b-form-select v-model="editCarProps.options" :options="options" /> -->
+                            <b-form-select v-model=" editCarProps.car_fuel_type" :options="options" />
+                           
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
@@ -75,7 +76,7 @@
                             <b-form-input lazy-formatterid="name-input" v-model="editCarProps.location" required /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
                     </b-form-group>
                 </b-col>
-                <!-- car kilometer input -->
+                
                 <b-col>
                     <b-form-group label="Enter Car Average Km" label-for="avg_km" invalid-feedback="Year is required">
 
@@ -83,12 +84,21 @@
                             <b-form-input id="name-input" v-model="editCarProps.avg_km" required /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
                     </b-form-group>
                 </b-col>
-                <!-- Car Image Input -->
+               {{ editCarProps.car_img }}
+               
                 <b-col>
                     <b-form-group label="Choose Car Image" label-for="car_img">
                         <b-form-file id="extension" accept=".jpg, .png, .gif, .jpeg" v-model="editCarProps.car_img" />
                     </b-form-group>
                 </b-col>
+
+                <b-col>
+                  <b-form-group label="Description" label-for="car_desc">
+                      <b-form-input id="car-desc" v-model="editCarProps.car_desc" />
+                  </b-form-group>
+               </b-col>
+              
+                <!-- <b-col><b-button @click="handleEditSubmit1">Ok</b-button></b-col> -->
                 <!-- <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>-->
                 <!-- <b-button 
               v-if="modelProps == 'Edit Car Details'"
@@ -167,18 +177,11 @@ export default {
     },
     props: {
         modalId: String,
-        modeltitleProps: String,
-        editCarProps: Array
+       
+        editCarProps: [Array,String,Object]
 
     },
-    //   props: {
-    //      editcarpropdata: {
-    //       type: [Array, Object, String],
-    //       default: {},
-    //       },
-    //      
-    //       modalId:String
-    // },
+    
     directives: {
         'b-modal': VBModal,
         Ripple,
@@ -188,7 +191,7 @@ export default {
             //alert:false,
             cars: [],
             // dialog:true,
-            fuel_type: this.editCarProps.car_fuel_type,
+            //fuel_type: this.editCarProps.car_fuel_type,
             required,
             alpha,
             integer,
@@ -210,7 +213,7 @@ export default {
             // make_year:this.editcarpropdata.make_year,
             // location:this.editcarpropdata.location,
             // avg_km:this.editcarpropdata.avg_km,
-            car_img: null,
+            //car_img: null,
             selected: null,
             options: [{
                     value: null,
@@ -221,8 +224,8 @@ export default {
                     text: 'Diesel'
                 },
                 {
-                    value: 'Pertrol',
-                    text: 'Pertrol'
+                    value: 'Petrol',
+                    text: 'Petrol'
                 },
                 {
                     value: 'CNG',
@@ -232,67 +235,34 @@ export default {
             ]
             
     }},
-
-    // async created() {
-
-    //     try {
-    //         const res = await axios.get(`http://localhost:3000/cars/` + this.$route.params.id);
-    //         console.log(res, 'res');
-    //         this.cars = res.data;
-    //         //this.imgurl = `./../../public/${this.cars.car_img}`
-    //         console.log(this.cars, 'edit modal called');
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // },
     methods: {
 
         handleEditSubmit() {
-            //alert('edit');
             //alert('hadle submit called');
          
-            let data = {
-                car_title: editCarProps.car_title,
-                car_model: editCarProps.car_model,
-                car_fuel_type: editCarProps.selected,
-                car_price: editCarProps.car_price,
-                make_year: editCarProps.make_year,
-                location: editCarProps.location,
-                avg_km: editCarProps.avg_km,
-                car_img: editCarProps.car_img.name,
-                id:editCarProps.id
+            var cardata = {
+                car_title:this.editCarProps.car_title,
+                car_model: this.editCarProps.car_model,
+                car_fuel_type: this.editCarProps.selected,
+                car_price: this.editCarProps.car_price,
+                make_year: this.editCarProps.make_year,
+                location: this.editCarProps.location,
+                avg_km: this.editCarProps.avg_km,
+                car_img: this.editCarProps.car_img.name,
+                car_desc:this.editCarProps.car_desc,
+                id:this.editCarProps.id
             }
+           console.log(cardata,'car data');
 
-           this.$store.dispatch("updateCars", data);
+           this.$store.dispatch("updateCars",cardata);
             //this.dialog =false;
             //this.$emit("close-event",false);
             //  this.alert=true;
             console.log('data edited', this.$store.state.cars);
 
         },
-        // handleEditSubmit(){
-        //   let data ={
-        //     car_title:this.car_title,
-        //     car_model:this.car_model,
-        //     car_fuel_type:this.car_fuel_type,
-        //     car_price:this.car_price,
-        //     make_year:this.make_year,
-        //     location:this.location,
-        //     avg_km:this.avg_km,
-        //     car_img:this.car_img.name,
-        //     id:this.editcarpropdata.id,
-        //   }
-
-        //   console.log(data.car_img,'dddd');
-        //     this.$store.dispatch("updateCars",data);
-        //     this.dialog =false;
-        //     this.$emit("close-event",false);
-
-        // },
-        // watch: {
-        //   dialog(val) {
-        //     val || this.close() || this.$emit("close-event", false);
-        //   },
+      
+       
     },
 
     // },

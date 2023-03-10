@@ -76,7 +76,7 @@
                       rules="required"
                       name="Car Model"
                     >
-                    {{ selected }}
+                    <!-- {{ selected }} -->
                     <b-form-select 
                       v-model="selected" 
                       :options="options" />
@@ -313,12 +313,12 @@
                             text: 'Select Fuel Type'
                         },
                         {
-                            value: 'Diesal',
-                            text: 'Diesal'
+                            value: 'Diesel',
+                            text: 'Diesel'
                         },
                         {
-                            value: 'Pertrol',
-                            text: 'Pertrol'
+                            value: 'Petrol',
+                            text: 'Petrol'
                         },
                         {
                             value: 'CNG',

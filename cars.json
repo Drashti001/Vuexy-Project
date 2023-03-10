@@ -48,6 +48,7 @@
       "car_img": "mercedesAMG_s63.jpg",
       "car_desc": "the Mercedes SL-Class quickly morphed into the symbol of personal luxury that we know today. The last-generation R231 model was so ponderous, it seemed ill-fit for its Sport-Leicht (Sport Lightweight) name, so Mercedes knew it had to make a significant change. The 2022 Mercedes-AMG SL63 and SL55 are the first to be developed from the ground up by the AMG department. "
     },
+
     {
       "id": 6,
       "car_title": "Volvo",
@@ -72,6 +73,5 @@
       "car_img": "bugatti_divo.jpg",
       "car_desc": "Its supercars come with the most premium of materials that cannot be found in other luxury cars. And for obvious reasons, you're buying a Bugatti because of its unprecedented performance. With each of its new supercar boasting quicker speeds with more horsepower, it's hard to see who is capable of catching up.Bugatti claims the Divo will accelerate to 62 mph in just 2.4 seconds and that it can hang on through a corner with an astonishing 1.6 g's of grip. Although we doubt we'll have the privilege to pilot a Divo, we have driven the Chiron and can only assume its diabolical alter ego—which weighs a claimed 77 pounds less and takes greater pains to manage the airflow around it—outshines it on the track."
     }
-    
   ]
 }

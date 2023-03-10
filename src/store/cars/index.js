@@ -14,13 +14,18 @@ export const mutations={
         if(item.id === car.id){
             return Object.assign({},item ,car.data);
         }
-        return item;
-    }))
+        // return item;
+    })),
+    DELETE_CARS(state,id){
+        let index = state.cars.filter(car => car.id != id)
+        state.cars = index;
+    }
 }
 export const getters={
    
 }
-export const actions={
+export const actions = {
+
     async addCars({commit},cars1){
       let response = await axios.post('http://localhost:3000/cars',cars1);
         console.log('add');
@@ -35,13 +40,21 @@ export const actions={
             commit('GET_CARS',cars)
         })
     },
-    async updateCars({ commit }, car) {
-        let response = await axios.put(
-          `http://localhost:3000/cars/${car.id}`,
-          car
+    
+    async updateCars({ commit },data ) {
+      
+        let response = await axios.put(`http://localhost:3000/cars/${data.id}`,
+          data
         );
-        commit('UPDATE_CARS', response.data);
-      },   
+        console.log(response,'response');
+       commit('UPDATE_CARS', response.data);
+      }, 
+      
+      async deleteCars({commit},id){
+        await axios.delete(`http://localhost:3000/cars/${id}`);
+        console.log(id,'id fetch');
+        commit("DELETE_CARS",id);
+      }
  
 }
 
