@@ -45,15 +45,15 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
+         <b-link :to="{ name: 'profile' }"> <feather-icon
             size="16"
             icon="UserIcon"
             class="mr-50"
           />
-          <span>Profile</span>
+          <span>Profile</span></b-link>
         </b-dropdown-item>
 
-        <b-dropdown-item link-class="d-flex align-items-center">
+        <!-- <b-dropdown-item link-class="d-flex align-items-center">
           <feather-icon
             size="16"
             icon="MailIcon"
@@ -89,7 +89,7 @@
             class="mr-50"
           />
           <span>Logout</span>
-        </b-dropdown-item>
+        </b-dropdown-item>-->
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </div>

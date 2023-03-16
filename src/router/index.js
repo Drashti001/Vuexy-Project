@@ -47,9 +47,15 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/car-details/:id',
+      path: '/car-details/:id/:carId',
       name: 'car-details',
       component: () => import('@/views/CarDetails.vue'),
+      
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/Profile.vue'),
       
     },
     {

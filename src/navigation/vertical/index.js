@@ -5,8 +5,9 @@ export default [
     icon: 'HomeIcon',
   },
   {
-    title: 'Car Details',
-    route: 'car-details',
-    icon: 'FileIcon',
+    title: 'Profile',
+    route: 'profile',
+    icon: 'UserIcon',
   },
+  
 ]

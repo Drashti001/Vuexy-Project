@@ -1,7 +1,7 @@
 <!-- modal -->
    <template>
 <b-row>
-  <!-- {{ editCarProps}} -->
+  {{ editCarProps}}
     <b-modal :id="modalId" ref="my-modal" title="Edit Data" @ok="handleEditSubmit">
 
       
@@ -238,7 +238,7 @@ export default {
     methods: {
 
         handleEditSubmit() {
-            //alert('hadle submit called');
+            alert('hadle submit called');
          
             var cardata = {
                 car_title:this.editCarProps.car_title,
@@ -250,7 +250,8 @@ export default {
                 avg_km: this.editCarProps.avg_km,
                 car_img: this.editCarProps.car_img.name,
                 car_desc:this.editCarProps.car_desc,
-                id:this.editCarProps.id
+                id:this.editCarProps.id,
+                carId:this.editCarProps.carId
             }
            console.log(cardata,'car data');
 

@@ -1,5 +1,20 @@
 <template>
   <div>
+    <!-- id:{{ DataId}}
+    car-id:{{ carFileId }}
+   image: {{ img }} -->
+<!--    
+      <img
+      v-for="(car,index) in cars.car_img"
+      :src="getImgUrl(cars.car_i)"
+      :key="x"
+      
+      /> -->
+
+
+
+    
+    <!-- {{ cars }} -->
     <b-card no-body v-if="cars">
      
       <b-card-body>
@@ -7,24 +22,36 @@
            <!-- Left: Product Image Container -->
           <b-col
             cols="12"
-            md="6"
+            sm="6"
             class="d-flex align-items-center justify-content-center mb-2 mb-md-0"
             >
-           <div class="d-flex align-items-center justify-content-center">
+           <div class="d-flex align-items-center justify-content-center w-100"   >
+            
+          
+            <b-carousel
+            id="carousel-example-generic"
+            controls
+            indicators
+            class="w-100"
+            style="height:420px;"
+            >
+          
+             <b-carousel-slide style="height:500px" class="customCars" v-for="i in img" :key="i.id"  :img-src="require(`../../public/${i}`)" />
+          </b-carousel>
             <!-- getImage(cars.car_img) -->
-            <b-img :src="`../../${cars.car_img}`" style="height:440px;width:510px"/>
-           
+          <!-- <b-img :src="`../../${cars.car_img}`" />
+            -->
           </div>
         </b-col>
         
             <!-- Right: Product Details -->
            <b-col
            cols="12"
-           md="6"
+           sm="6"
         
           
           >
-        
+      <!-- {{ cars.images }} -->
          
             <h4>{{ cars.car_model}}</h4> 
          
@@ -85,7 +112,7 @@
 <script>
 
 import {
-  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem, BAlert,
+  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem, BAlert,BCarousel, BCarouselSlide
 } from 'bootstrap-vue'
 import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
 
@@ -112,19 +139,35 @@ export default {
     BDropdownItem,
     BAlert,
     FeatherIcon,
+    BCarousel, BCarouselSlide
   },
   data(){
     return{
+      
       cars:[],
+      getCarInfo:this.cars,
+      DataId:this.$route.params.id,
+      carFileId : this.$route.params.carId,
       imgurl:null,
     }
+  },
+
+  methods:{
   },
   async mounted() {
 
   try {
+    //console.log(this.$route,params.id,'id');
+    //console.log(this.$route.params.id,'carId');
+    //console.log(this.$route.params.carId,'carId2');
     const res = await axios.get(`http://localhost:3000/cars/`+this.$route.params.id);
+
+    //console.log(this.$route.params.id,'carId');
     this.cars = res.data;
-    
+    if(this.cars.carId == this.carFileId){
+      this.img = this.cars.images;
+    }
+    console.log(this.img,'image');
     console.log(this.cars,'edit');
   } catch (error) {
     console.log(error);
@@ -137,7 +180,18 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@core/scss/base/pages/app-ecommerce-details.scss";
+.customCars{
+  .img-fluid{
+    height: 400px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .customCars{
+    .img-fluid{
+      height: 300px;
+    }
+  }
+}
 </style>
 
 

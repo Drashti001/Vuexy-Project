@@ -2,6 +2,7 @@
   "cars": [
     {
       "id": 1,
+      "carId": 11,
       "car_title": "Tiago",
       "car_model": "Tiago NRG",
       "car_fuel_type": "Diesel",
@@ -9,11 +10,17 @@
       "make_year": 2020,
       "location": "Ahemdabad",
       "avg_km": 30000,
-      "car_img": "tata_tiagonrg.jpeg",
+      "car_img": "tiago_m.webp",
+      "images": [
+        "tata_2.jpeg",
+        "tata_4.jpeg",
+        "tata_5.jpeg"
+      ],
       "car_desc": "The Tata Tiago NRG has 1 Petrol Engine and 1 CNG Engine on offer. The Petrol engine is 1199 cc while the CNG engine is 1199 cc . It is available with Manual & Automatic transmission.Depending upon the variant and fuel type the Tiago NRG has a mileage of 20.09 kmpl to 26.49 km/kg & Ground clearance of Tiago NRG is 177. The Tiago NRG is a 5 seater 3 cylinder car"
     },
     {
       "id": 2,
+      "carId": 12,
       "car_title": "Ford",
       "car_model": "Ford Freestyle",
       "car_fuel_type": "Diesel",
@@ -22,10 +29,16 @@
       "location": "Ahemdabad",
       "avg_km": 30000,
       "car_img": "ford_freestyle.jpg",
+      "images": [
+        "ford_1.jpeg",
+        "ford_2.jpeg",
+        "ford_3.jpeg"
+      ],
       "car_desc": "The Ford Freestyle has 2 Diesel Engine and 1 Petrol Engine on offer. The Diesel engine is 1498 cc and 1499 cc while the Petrol engine is 1194 cc . It is available with Manual transmission. Depending upon the variant and fuel type the Freestyle has a mileage of 18.5 to 24.4 kmpl ."
     },
     {
       "id": 3,
+      "carId": 13,
       "car_title": "Toyota",
       "car_model": "Toyota Yaris",
       "car_fuel_type": "Petrol",
@@ -33,11 +46,17 @@
       "make_year": 2018,
       "location": "Ahemdabad",
       "avg_km": 50000,
-      "car_img": "toyota_yaris.jpg",
+      "car_img": "toyota_m.jpeg",
+      "images": [
+        "toyota_1.jpeg",
+        "toyota_2.jpeg",
+        "toyota_3.jpeg"
+      ],
       "car_desc": "The Petrol engine is 1496 cc . It is available with Manual & Automatic transmission. Depending upon the variant and fuel type the Yaris has a mileage of 17.1 to 17.8 kmpl . The Yaris is a 5 seater 4 cylinder car and has length of 4425mm, width of 1730mm and a wheelbase of 2550mm."
     },
     {
       "id": 5,
+      "carId": 55,
       "car_title": "Mercedes",
       "car_model": "Marecedes AMG sl6",
       "car_fuel_type": "Petrol",
@@ -46,11 +65,16 @@
       "location": "Ahemdabad",
       "avg_km": 70000,
       "car_img": "mercedesAMG_s63.jpg",
+      "images": [
+        "m_1.jpeg",
+        "m_3.jpeg",
+        "m_4.jpeg"
+      ],
       "car_desc": "the Mercedes SL-Class quickly morphed into the symbol of personal luxury that we know today. The last-generation R231 model was so ponderous, it seemed ill-fit for its Sport-Leicht (Sport Lightweight) name, so Mercedes knew it had to make a significant change. The 2022 Mercedes-AMG SL63 and SL55 are the first to be developed from the ground up by the AMG department. "
     },
-
     {
       "id": 6,
+      "carId": 16,
       "car_title": "Volvo",
       "car_model": "Volvo XC40",
       "car_fuel_type": "Petrol",
@@ -59,10 +83,16 @@
       "location": "Germans",
       "avg_km": 50000,
       "car_img": "volvo_xc40.jpg",
+      "images": [
+        "volvo_1.webp",
+        "volvo_2.jpeg",
+        "volvo_3.jpeg"
+      ],
       "car_desc": "Volvo XC40 is a 5 seater SUV available at a price of ₹ 46.40 Lakh. It is available in 1 variant, 1969 cc engine option and 1 transmission option : Automatic. Other key specifications of the XC40 include a Ground Clearance of 211 mm and Bootspace of 432 litres. The XC40 is available in 5 colours."
     },
     {
       "id": 7,
+      "carId": 17,
       "car_title": "Bugatti",
       "car_model": "Bugatti Divo",
       "car_fuel_type": "CNG",
@@ -71,6 +101,11 @@
       "location": "Germans",
       "avg_km": 100000,
       "car_img": "bugatti_divo.jpg",
+      "images": [
+        "buggati_3.jpeg",
+        "buggati_2.jpeg",
+        "buggati_1.jpeg"
+      ],
       "car_desc": "Its supercars come with the most premium of materials that cannot be found in other luxury cars. And for obvious reasons, you're buying a Bugatti because of its unprecedented performance. With each of its new supercar boasting quicker speeds with more horsepower, it's hard to see who is capable of catching up.Bugatti claims the Divo will accelerate to 62 mph in just 2.4 seconds and that it can hang on through a corner with an astonishing 1.6 g's of grip. Although we doubt we'll have the privilege to pilot a Divo, we have driven the Chiron and can only assume its diabolical alter ego—which weighs a claimed 77 pounds less and takes greater pains to manage the airflow around it—outshines it on the track."
     }
   ]

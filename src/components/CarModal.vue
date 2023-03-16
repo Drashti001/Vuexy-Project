@@ -8,12 +8,38 @@
                 title="Add Data"
                 ok-title="Submit"
                 @ok="handleAddSubmit"
+               
                >
                
              
                 <validation-observer ref="simpleRules">
                   <!-- car details form -->
-                <form ref="form" @submit="handleAddSubmit">
+                <form ref="form" @submit="handleAddSubmit"  >
+
+                  <b-col
+                   
+                  class="mb-1"
+                >
+                  <b-form-group 
+                    label="Enter CarId" 
+                    label-for="car_price" 
+                    invalid-feedback="price is required">
+
+                    <validation-provider
+                      #default="{ errors }"
+                      rules="required|integer"
+                      name="Number"
+                  >
+                  <b-form-input
+                    id="name-input" 
+                    :state="errors.length > 0 ? false:null"
+                    v-model="carId"
+                    required
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                  </b-form-group>
+                  </b-col>
                
                   <!-- car name input -->
                 <b-col
@@ -188,6 +214,27 @@
                       v-model="car_img"/>
                     </b-form-group>
                     </b-col>
+
+                    <b-col
+                    >
+     
+                     <b-form-group 
+                      label="Enter Car Description" 
+                      label-for="location" 
+                      invalid-feedback="Description is required">
+                      
+                      <validation-provider
+                      #default="{ errors }"
+                      rules="required|"
+                      name="description"
+                  >
+                     <b-form-input
+                      lazy-formatterid="name-input" 
+                      v-model="car_desc"
+                      required
+                     /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
+                     </b-form-group>
+                     </b-col>
                     <!-- <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>-->
                    <!-- <b-button 
                       v-if="modelProps == 'Edit Car Details'"
@@ -298,7 +345,9 @@
                     car_price:'',
                     make_year:'',
                     location:'',
+                    car_desc:'',
                     avg_km:'',
+                    carId:'',
                     // car_title:this.editcarpropdata.car_title,
                     // car_model:this.editcarpropdata.car_model,
                     // car_fuel_type:this.editcarpropdata.car_fuel_type,
@@ -331,20 +380,22 @@
         },
         
         methods:{
-    //       close() {
-    //       this.dialog = false;
-    //       this.$nextTick(() => {
-    //        this.editedCar = Object.assign({}, this.defaultItem);
-    //      });
-      
-    //       this.$emit("close-event", false);
-    // },
+          makeToast(variant = null) {
+          this.$bvToast.toast('you Successfully added car details', {
+          title: `Added ${variant || 'default'}`,
+          variant,
+          solid: false,
+        })
+           },
+
           handleAddSubmit(){
-    
+            console.log('sndjksancxk');
+           
               //alert('hadle submit called');
               //console.log(this.car_img,'dsdsd');
-            
+             
               let data = {
+                carId:this.carId,
               car_title:this.car_title,
               car_model:this.car_model,
               car_fuel_type:this.selected,
@@ -352,16 +403,16 @@
               make_year:this.make_year,
               location:this.location,
               avg_km:this.avg_km,
-              car_img:this.car_img.name
+              car_img:this.car_img.name,
+              car_desc:this.car_desc
             }
             
             
               this.$store.dispatch("addCars",data);
-              // this.dialog =false;
-              // this.$emit("close-event",false);
-             // this.alert=true;
-             // console.log('data added',this.$store.state.cars);
-              
+              this.makeToast('success');   
+        
+           
+             
           },
           // handleEditSubmit(){
           //   let data ={
@@ -387,36 +438,7 @@
           //     val || this.close() || this.$emit("close-event", false);
           //   },
   },
-        //   validate(){
-        //     let adddata ={
-        //       car_title:this.car_title,
-        //       car_model:this.car_model,
-        //       car_fuel_type:this.car_fuel_type,
-        //       car_price:this.car_price,
-        //       make_year:this.make_year,
-        //       location:this.location,
-        //       avg_km:this.avg_km,
-        //       car_img:this.car_img
-    
-        //     };
-        //     if(this.car_title == "" || this.car_model == "" || this.car_fuel_type == "" || this.car_price == "" || this.make_year == "" || this.location == "" || this.avg_km == "" || this.car_img == ""){
-        //       this.$refs.BForm.validate();
-        //     }
-        //     else{
-        //       this.$store.dispatch("addCars",adddata).then(() =>{
-        //           console.log(adddata,'data added');
-        //           //this.alert =true;
-        //           setTimeout(() => {
-        //              //this.alert =false;
-        //           }, 3000);
-        //           this.$refs.form.reset();
-        //         });
-        //     }
-        //   }
-          
-           
-            
-        // },
+     
         
         
     }

@@ -17,7 +17,8 @@ export const mutations={
         // return item;
     })),
     DELETE_CARS(state,id){
-        let index = state.cars.filter(car => car.id != id)
+        //let index = state.cars.filter(car => car.id != id)
+        let index = state.cars.find(car => car.id != id)
         state.cars = index;
     }
 }
@@ -53,7 +54,7 @@ export const actions = {
       async deleteCars({commit},id){
         await axios.delete(`http://localhost:3000/cars/${id}`);
         console.log(id,'id fetch');
-        commit("DELETE_CARS",id);
+        commit('DELETE_CARS',id);
       }
  
 }

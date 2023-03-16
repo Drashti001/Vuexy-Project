@@ -14,7 +14,7 @@
           
           
           
-          <b-card style="height:100vh">
+          <b-card >
             
 
   
@@ -45,7 +45,7 @@
                 stacked
                 :options="years"
               />
-              <!-- {{ car_year }} -->
+              {{ car_year }}
             </div> 
 
             <!-- Fuel Type -->
@@ -105,7 +105,7 @@
     BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup
   } from 'bootstrap-vue'
   import VueSlider from 'vue-slider-component'
-import axios from 'axios'
+
   
   export default {
     data(){
@@ -116,7 +116,7 @@ import axios from 'axios'
             car_year:'',
             car_kms:'',
             cars:[],
-            priceRange:[50000,2000000],
+            //priceRange:[50000,2000000],
             years:[
               2022,
               2020,
@@ -173,6 +173,7 @@ import axios from 'axios'
        
       },
       fetchFuel(event){
+        console.log(event);
           this.$emit('car-fuel-event',event);
 
 
