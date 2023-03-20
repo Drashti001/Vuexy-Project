@@ -58,6 +58,7 @@ const router = new VueRouter({
       component: () => import('@/views/Profile.vue'),
       
     },
+   
     {
       path: '/error-404',
       name: 'error-404',

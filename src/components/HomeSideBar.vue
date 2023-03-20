@@ -14,7 +14,7 @@
           
           
           
-          <b-card >
+          <b-card style="height:200vh">
             
 
   

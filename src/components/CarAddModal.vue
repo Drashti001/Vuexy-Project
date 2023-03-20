@@ -201,19 +201,52 @@
                     /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
                     </b-form-group>
                     </b-col>
-                    <!-- Car Image Input -->
+                    <!-- Car singal Image Input -->
                     <b-col>
                     <b-form-group
                       label="Choose Car Image"
                       label-for="car_img" 
-    
+                      invalid-feedback="Image is required"
+                    
                     >
+                  
                       <b-form-file
                       id="extension"
                       accept=".jpg, .png, .gif, .jpeg"
-                      v-model="car_img"/>
+                      v-model="car_img"
+                      :src="car_img"
+                      @change="handleImage"
+                      />
+                      <b-img :src="car_img" fluid />
+                      
                     </b-form-group>
+                  
+                
                     </b-col>
+                       <!-- Car singal Image Input Close-->
+
+                       <!-- Car multiple Image Input -->
+                    <b-col>
+                      <b-form-group
+                        label="Choose Car Multiple Images"
+                        label-for="images" 
+                    
+                      >
+                        <b-form-file
+                        id="multipleimages"
+                        accept=".jpg, .png, .gif, .jpeg"
+                        v-model="images"
+                        :src="images"
+                        multiple 
+                        @change="handleMultipleImage"
+                        />
+                       <div v-for="(image , index) in files" :key="index"> 
+                        <b-img :src="image" fluid thumbnail/>
+                       </div>
+                      </b-form-group>
+
+                    </b-col>
+                         <!-- Car multiple Image Input Close-->
 
                     <b-col
                     >
@@ -247,15 +280,6 @@
                       color="blue darken-1"
                       text
                       @click="handleAddSubmit">Save</b-button>  -->
-
-                    
-                    <!-- <b-card-text>
-                      <div class="image">
-                     <img v-bind:src="car_img">
-                    {{ car_img }}
-                     </div>
-                    </b-card-text> -->
-                   
     
     
     
@@ -283,7 +307,9 @@
         BFormFile,
         BAlert,
         BRow,
-        BCol
+        BCol,
+        BImg,
+       
     } from 'bootstrap-vue'
     import Ripple from 'vue-ripple-directive'
     import BCardCode from '@core/components/b-card-code'
@@ -291,6 +317,7 @@
     import {
   required ,alpha, integer, min, digits, length,
 } from '@validations'
+
 
     export default {
         components: {
@@ -308,7 +335,10 @@
             BFormFile,
             BRow,
             BAlert,
-            BCol
+            BCol,
+            BImg,
+          
+    
           
            
         },
@@ -348,6 +378,9 @@
                     car_desc:'',
                     avg_km:'',
                     carId:'',
+                    images:[],
+                    files:[],
+                    img:false,
                     // car_title:this.editcarpropdata.car_title,
                     // car_model:this.editcarpropdata.car_model,
                     // car_fuel_type:this.editcarpropdata.car_fuel_type,
@@ -355,7 +388,10 @@
                     // make_year:this.editcarpropdata.make_year,
                     // location:this.editcarpropdata.location,
                     // avg_km:this.editcarpropdata.avg_km,
-                    car_img:null,
+                    car_img:[],
+                    selectedImage:null,
+                    //multipleImages:null,
+                    
                     selected: null,
                     options: [{
                             value: null,
@@ -380,16 +416,71 @@
         },
         
         methods:{
+
+          /*** single image input ***/
+          handleImage(e){
+            console.log(e,'e');
+            const selectedImage = e.target.files[0];
+            this.createBase64Image(selectedImage);
+            console.log(selectedImage,'images');
+          },
+          createBase64Image(fileObject){
+            const reader = new FileReader();
+            reader.onload = (e) =>{
+              this.car_img = e.target.result;
+            };
+            reader.readAsDataURL(fileObject);
+            //reader.readAsBinaryString(fileObject);
+            console.log(this.car_img,'car image');
+          },
+
+
+
+
+          /*****  multiple image input *****/
+
+
+          createBase64Image1(fileObject){
+
+            const reader = new FileReader();
+            console.log(reader);
+                 reader.onload = (e) => {
+                  console.log(e.target.result,'hsjkhfjksdhfjkdsfhjkdshfjsfhkjshfjks')
+                  this.files.push(e.target.result);
+                };
+                reader.readAsDataURL(fileObject); 
+                console.log(this.files,'images');
+          },
+
+
+          handleMultipleImage(e){
+            //console.log(this.$refs.images.files[0],'d');
+            console.log(e.target.files);
+            console.log(e.target.files,'dsds');
+            const multipleImages = e.target.files;
+
+            this.images=[];
+
+            for(let i=0 ;i < multipleImages.length ; i++ ){
+             console.log('fetch files',e.target.files[i])
+                //multipleImages.push(e.target.files[i]);
+                this.createBase64Image1(multipleImages[i]);
+           }
+             //this.createBase64MultipleImage(multipleImages);
+            // console.log(this.images,'multiple images');
+
+          },
+        
           makeToast(variant = null) {
-          this.$bvToast.toast('you Successfully added car details', {
-          title: `Added ${variant || 'default'}`,
-          variant,
-          solid: false,
-        })
+           this.$bvToast.toast('you Successfully added car details', {
+           title: `Added ${variant || 'default'}`,
+           variant,
+           solid: false,
+          })
            },
 
           handleAddSubmit(){
-            console.log('sndjksancxk');
+            console.log('handle submit call');
            
               //alert('hadle submit called');
               //console.log(this.car_img,'dsdsd');
@@ -403,11 +494,12 @@
               make_year:this.make_year,
               location:this.location,
               avg_km:this.avg_km,
-              car_img:this.car_img.name,
+              car_img:this.car_img,
+              images:this.files,
               car_desc:this.car_desc
             }
             
-            
+            console.log(data.images);
               this.$store.dispatch("addCars",data);
               this.makeToast('success');   
         

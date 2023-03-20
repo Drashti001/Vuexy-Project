@@ -1,22 +1,21 @@
 <!-- modal -->
    <template>
 <b-row>
-  {{ editCarProps}}
+    <!-- {{ editCarProps}} -->
     <b-modal :id="modalId" ref="my-modal" title="Edit Data" @ok="handleEditSubmit">
 
-      
-        <validation-observer ref="simpleRules" >
+        <validation-observer ref="simpleRules">
             <!-- car details form -->
             <form ref="form" @submit.stop.prevent="handleEditSubmit">
 
                 <!-- car name input -->
-                <!-- {{ editCarProps.car_desc}}--> 
-                 <!-- {{ editCarProps.car_fuel_type }}  -->
+                <!-- {{ editCarProps.car_desc}}-->
+                <!-- {{ editCarProps.car_fuel_type }}  -->
                 <b-col class="mb-1">
 
-                    <b-form-group label="Enter Car Name" label-for="car_title">
+                    <b-form-group label="Edit Car Name" label-for="car_title">
 
-                        <validation-provider #default="{ errors }" rules="required" >
+                        <validation-provider #default="{ errors }" rules="required">
                             <b-form-input id="name-input" v-model="editCarProps.car_title" :state="errors.length > 0 ? false: null" required />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -25,9 +24,9 @@
                 </b-col>
                 <!-- car model input -->
                 <b-col class="mb-1">
-                    <b-form-group label="Enter Car Model" label-for="car_model" invalid-feedback="Model Name is required">
+                    <b-form-group label="Edit Car Model" label-for="car_model" invalid-feedback="Model Name is required">
 
-                        <validation-provider #default="{ errors }" rules="required" >
+                        <validation-provider #default="{ errors }" rules="required">
                             <b-form-input id="name-input" v-model="editCarProps.car_model" required />
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
@@ -35,13 +34,13 @@
                 </b-col>
                 <!-- car fuel type input -->
                 <b-col class="mb-1">
-                    <b-form-group label="Enter Car Fuel Type" label-for="car_fuel_type" invalid-feedback="Name is required">
+                    <b-form-group label="Edit Car Fuel Type" label-for="car_fuel_type" invalid-feedback="Name is required">
 
-                        <validation-provider #default="{ errors }" rules="required" >
+                        <validation-provider #default="{ errors }" rules="required">
                             <!-- {{ selected.car_fuel_type }} -->
                             <!-- <b-form-select v-model="editCarProps.selected.options" :options="options" /> -->
                             <b-form-select v-model=" editCarProps.car_fuel_type" :options="options" />
-                           
+
                             <small class="text-danger">{{ errors[0] }}</small>
                         </validation-provider>
                     </b-form-group>
@@ -49,7 +48,7 @@
 
                 <!-- car price input -->
                 <b-col class="mb-1">
-                    <b-form-group label="Enter Car Price" label-for="car_price" invalid-feedback="price is required">
+                    <b-form-group label="Edit Car Price" label-for="car_price" invalid-feedback="price is required">
 
                         <validation-provider #default="{ errors }" rules="required|integer" name="Number">
                             <b-form-input id="name-input" :state="errors.length > 0 ? false:null" v-model="editCarProps.car_price" required />
@@ -60,7 +59,7 @@
 
                 <!-- car manufacturer input -->
                 <b-col>
-                    <b-form-group label="Enter Car Manufacturer Year" label-for="make_year" invalid-feedback="Year is required">
+                    <b-form-group label="Edit Car Manufacturer Year" label-for="make_year" invalid-feedback="Year is required">
 
                         <validation-provider #default="{ errors }" rules="required|integer" name="Number">
                             <b-form-input id="name-input" v-model="editCarProps.make_year" required /><small class="text-danger">{{ errors[0] }}</small>
@@ -70,34 +69,44 @@
                 <!-- car location input -->
                 <b-col>
 
-                    <b-form-group label="Enter Car Location" label-for="location" invalid-feedback="Year is required">
+                    <b-form-group label="Edit Car Location" label-for="location" invalid-feedback="Year is required">
 
                         <validation-provider #default="{ errors }" rules="required|" name="Number">
                             <b-form-input lazy-formatterid="name-input" v-model="editCarProps.location" required /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
                     </b-form-group>
                 </b-col>
-                
+
                 <b-col>
-                    <b-form-group label="Enter Car Average Km" label-for="avg_km" invalid-feedback="Year is required">
+                    <b-form-group label="Edit Car Average Km" label-for="avg_km" invalid-feedback="Year is required">
 
                         <validation-provider #default="{ errors }" rules="required|integer" name="Number">
                             <b-form-input id="name-input" v-model="editCarProps.avg_km" required /><small class="text-danger">{{ errors[0] }}</small></validation-provider>
                     </b-form-group>
                 </b-col>
-               {{ editCarProps.car_img }}
-               
+                <!-- {{ editCarProps.car_img }} -->
+
                 <b-col>
-                    <b-form-group label="Choose Car Image" label-for="car_img">
-                        <b-form-file id="extension" accept=".jpg, .png, .gif, .jpeg" v-model="editCarProps.car_img" />
+                    <b-form-group label="Edit Car Image" label-for="car_img">
+                        <b-form-file id="extension" accept=".jpg, .png, .gif, .jpeg" v-model="editCarProps.car_img" @change="editImage" />
+                        <img :src="editCarProps.car_img" style="height:200px;width:350px;" />
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group label="Edit Multiple Car Images" label-for="images">
+                        <b-form-file id="images" accept=".jpg, .png, .gif, .jpeg" multiple v-model="editCarProps.images" @change="editMultipleImage"/>
+                        <div v-for="(image , index) in editCarProps.images" :key="index">
+                            <img :src="image" style="height:200px;width:350px;" />
+                        </div>
                     </b-form-group>
                 </b-col>
 
+                <!-- {{ editCarProps.images }} -->
                 <b-col>
-                  <b-form-group label="Description" label-for="car_desc">
-                      <b-form-input id="car-desc" v-model="editCarProps.car_desc" />
-                  </b-form-group>
-               </b-col>
-              
+                    <b-form-group label="Description" label-for="car_desc">
+                        <b-form-input id="car-desc" v-model="editCarProps.car_desc" />
+                    </b-form-group>
+                </b-col>
+
                 <!-- <b-col><b-button @click="handleEditSubmit1">Ok</b-button></b-col> -->
                 <!-- <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>-->
                 <!-- <b-button 
@@ -177,11 +186,11 @@ export default {
     },
     props: {
         modalId: String,
-       
-        editCarProps: [Array,String,Object]
+
+        editCarProps: [Array, String, Object]
 
     },
-    
+
     directives: {
         'b-modal': VBModal,
         Ripple,
@@ -198,6 +207,7 @@ export default {
             min,
             digits,
             length,
+            img: '',
             // alert:false,
             // car_title:'',
             // car_model:'',
@@ -215,6 +225,9 @@ export default {
             // avg_km:this.editcarpropdata.avg_km,
             //car_img: null,
             selected: null,
+            selectedImage: [],
+            files:[],
+            images:[],
             options: [{
                     value: null,
                     text: 'Select Fuel Type'
@@ -233,37 +246,88 @@ export default {
                 }
 
             ]
-            
-    }},
+
+        }
+    },
     methods: {
 
         handleEditSubmit() {
             alert('hadle submit called');
-         
+
             var cardata = {
-                car_title:this.editCarProps.car_title,
+                car_title: this.editCarProps.car_title,
                 car_model: this.editCarProps.car_model,
                 car_fuel_type: this.editCarProps.selected,
                 car_price: this.editCarProps.car_price,
                 make_year: this.editCarProps.make_year,
                 location: this.editCarProps.location,
                 avg_km: this.editCarProps.avg_km,
-                car_img: this.editCarProps.car_img.name,
-                car_desc:this.editCarProps.car_desc,
-                id:this.editCarProps.id,
-                carId:this.editCarProps.carId
+                car_img: this.editCarProps.car_img,
+                car_desc: this.editCarProps.car_desc,
+                id: this.editCarProps.id,
+                images: this.editCarProps.images,
+                carId: this.editCarProps.carId
             }
-           console.log(cardata,'car data');
+            console.log(cardata, 'car data');
 
-           this.$store.dispatch("updateCars",cardata);
+            this.$store.dispatch("updateCars", cardata);
             //this.dialog =false;
             //this.$emit("close-event",false);
             //  this.alert=true;
             console.log('data edited', this.$store.state.cars);
 
         },
-      
-       
+        /***** edit single image  ****/
+        editImage(e) {
+            console.log(e, 'e');
+            this.editCarProps.car_img = [];
+            const selectedImage = e.target.files[0];
+            this.createBase64Image(selectedImage);
+            console.log(selectedImage, 'images');
+        },
+        createBase64Image(fileObject) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.editCarProps.car_img = e.target.result;
+            };
+            reader.readAsDataURL(fileObject);
+            //reader.readAsBinaryString(fileObject);
+            console.log(this.editCarProps.car_img, 'car image');
+        },
+
+        /***** edit multiple image  ****/
+
+        createBase64Image1(fileObject) {
+
+            const reader = new FileReader();
+            console.log(reader);
+            reader.onload = (e) => {
+                console.log(e.target.result, 'edit images')
+                this.files.push(e.target.result);
+            };
+            reader.readAsDataURL(fileObject);
+            console.log(this.files, 'images');
+        },
+
+        editMultipleImage(e) {
+            //console.log(this.$refs.images.files[0],'d');
+            console.log(e.target.files);
+            console.log(e.target.files, 'edit multiple');
+            console.log(this.editCarProps.images,'i');
+            const multipleImages = e.target.files;
+
+            this.editCarProps.images = [];
+
+            for (let i = 0; i < multipleImages.length; i++) {
+                console.log('fetch files', e.target.files[i])
+                //multipleImages.push(e.target.files[i]);
+                this.createBase64Image1(multipleImages[i]);
+            }
+            //this.createBase64MultipleImage(multipleImages);
+            // console.log(this.images,'multiple images');
+
+        },
+
     },
 
     // },

@@ -1,14 +1,13 @@
 {
-    "user": [
-      {
-        "uid":1,
-        "username": "John",
-        "designation": "Developer",
-        "lives": "New York",
-        "about":"Tart I love sugar plum I love oat cake. Sweet ⭐️ roll caramels I love jujubes. Topping cake wafer.",
-        "email":"john@gmail.com",
-        "website":"www.pixinvent.com"
-
-      }
-    ]
+  "user": [
+    {
+      "id": 1,
+      "username": "Kitty Allanson",
+      "designation": "Web Developer",
+      "lives": "New York , USA",
+      "about": "Tart I love sugar plum I love oat cake. Sweet ⭐️ roll caramels I love jujubes. Topping cake wafer.",
+      "email": "john@gmail.com",
+      "website": "www.pixinvent.com"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <car-modal modalId="addcar"></car-modal>
+    <car-add-modal modalId="addcar"></car-add-modal>
     <!-- :modeltitleProps="modalTitle" -->
     <car-edit-modal modalId="editcar" :editCarProps="editcardata"></car-edit-modal>
 
@@ -18,7 +18,7 @@
 
             <b-col>
 
-             <b-input-group>
+                <b-input-group>
 
                     <b-form-input placeholder="Search By Car Name" v-model="search" />
                     <b-input-group-append is-text>
@@ -26,65 +26,23 @@
                     </b-input-group-append>
 
                 </b-input-group>
-                </b-col>
-                
-                    <!-- <b-card-code>
-                        <b-card-text class="mb-0">
-                            Your Current Locale: <strong>{{ locale }}</strong>
-                          </b-card-text>
-                    <b-form-group class="mb-0">
-                        <b-form-radio-group
-                          id="radio-group-2"
-                          v-model="locale"
-                          name="radio-sub-component"
-                          class="demo-inline-spacing"
-                        >
-                          <b-form-radio
-                            value="en"
-                          >
-                            English
-                          </b-form-radio>
-                          <b-form-radio
-                            value="fr"
-                          >
-                          </b-form-radio></b-form-radio-group></b-form-group>
-                          <div class="border rounded mt-3 p-2">
-                            <h5 class="mb-1">
-                              {{ $t('cars.car_title') }}
-                            </h5>
-                            {{ $t('cars.car_model') }}
-                          </div>
-                      
-                          <template #code>
-                            {{ codeChange }}
-                          </template>
-                        </b-card-code> -->
+            </b-col>
 
-                <!-- <b-nav-item-dropdown id="dropdown-grouped" variant="link" class="dropdown-language" right>
-              
-                    <b-img :src="currentLocale.img" height="14px" width="22px" :alt="currentLocale.locale" />
-                    <span class="ml-50 text-body">{{ currentLocale.name }}</span>
-            
-                <b-dropdown-item v-for="localeObj in locales" :key="localeObj.locale" @click="$i18n.locale = localeObj.locale">
-                    <b-img :src="localeObj.img" height="14px" width="22px" :alt="localeObj.locale" />
-                    <span class="ml-50">{{ localeObj.name }}</span>
-                </b-dropdown-item>
-                </b-nav-item-dropdown> -->
-        
         </b-row>
 
     </div>
 
-    <b-row class="mt-1">
+    <b-row class="mt-1" id="my-card">
 
-        <b-col md="6" lg="4" v-for="car in this.search?filteredCar:(cars.cars = cars.cars ? cars.cars : cars)" :key="car.car_title">
+        <b-col md="6" lg="4" v-for="car in this.search?filteredCar:(cars.cars = cars.cars ? cars.cars : cars)" :key="car.car_title" >
             <!-- <b-col md="6" lg="4" v-for="car in (cars.cars = cars.cars ? cars.cars : cars)" :key="car.car_title"> -->
             <!-- {{ car }} -->
-            <b-card no-body class="grid-view-item" style="height:500.28px; ">
+            <b-card no-body class="grid-view-item" style="height:500.28px;"  :per-page="perPage" :current-page="currentPage">
                 <b-card-body>
                     <b-card-title>{{ car.car_title }}</b-card-title>
                     <b-card-sub-title>{{ car.car_model }}</b-card-sub-title>
                 </b-card-body>
+                <!-- {{ car.car_img }} -->
                 <div class="item-img text-center">
                     <b-link class="text-body" :to="{ name: 'car-details', params: { id:car.id, carId:car.carId} }">
                         <b-img :src="car.car_img" fluid class="grid-view-img mb-2 " style=" height:227px; width:400px;" />
@@ -101,9 +59,11 @@
                         <b-card-text class="ml-2">{{ new Intl.NumberFormat("en-IN").format(car.avg_km) }} km
                         </b-card-text>
                     </div>
-                    <b-card-text @click="openGoogleMap(item)">
-                        <feather-icon icon="MapPinIcon"  /> {{ car.location }}
-                    </b-card-text>
+                    <b-link>
+                        <b-card-text @click="openGoogleMap(item)">
+                            <feather-icon icon="MapPinIcon" /> {{ car.location }}
+                        </b-card-text>
+                    </b-link>
                 </b-card-body>
 
                 <b-card-body>
@@ -112,27 +72,34 @@
                             Edit Car
                         </b-button>
 
-                        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary" @click="confirmText(car.id)" class="ml-2">
+                        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary" v-b-tooltip.hover.v-primary title="Delete Car" @click="confirmText(car.id)" class="ml-2">
                             Delete Car </b-button>
 
                     </b-row>
+                    <b-button @click="deleteData(car.id)">Delete</b-button>
                 </b-card-body>
 
             </b-card>
         </b-col>
-        <!-- <b-pagination
-        v-model="currentPage"
-        hide-goto-end-buttons
-        :total-rows="rows"
-       
-      />  -->
+
+
+      
     </b-row>
+
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-card"
+    ></b-pagination>{{ currentPage }}
+    <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router ></b-pagination-nav> -->
+  
 </div>
 </template>
 
 <script>
 import HomeSideBar from "@/components/HomeSideBar.vue";
-import CarModal from "@/components/CarModal.vue";
+import CarAddModal from "@/components/CarAddModal.vue";
 import CarEditModal from "@/components/CarEditModal.vue";
 import BCardCode from "@/@core/components/b-card-code";
 import axios from "axios";
@@ -140,7 +107,7 @@ import axios from "axios";
 import {
     BCard,
     BCardText,
- 
+
     BButton,
     BRow,
     BCol,
@@ -156,7 +123,9 @@ import {
     VBTooltip,
     BFormRadio,
     BFormRadioGroup,
-    BNavItemDropdown, BDropdownItem
+    BNavItemDropdown,
+    BDropdownItem,
+    BPaginationNav
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
@@ -167,7 +136,7 @@ export default {
         BCardText,
         BLink,
         BButton,
-        CarModal,
+        CarAddModal,
         BRow,
         BCol,
         BImg,
@@ -184,42 +153,36 @@ export default {
         VBTooltip,
         BCardCode,
         BFormRadio,
-        BFormRadioGroup,BNavItemDropdown, BDropdownItem,
+        BFormRadioGroup,
+        BNavItemDropdown,
+        BDropdownItem,
+        BPaginationNav
+
     },
     directives: {
         Ripple,
         'b-tooltip': VBTooltip,
     },
-//     setup() {
-//     /* eslint-disable global-require */
-//     const locales = [
-//       {
-//         locale: 'en',
-//         img: require('../../public/en.png'),
-//         name: 'English',
-//       },
-//       {
-//         locale: 'fr',
-//         img: require('../../public/gr.png'),
-//         name: 'French',
-//       },
-//     //   {
-//     //     locale: 'de',
-//     //     img: require('@/assets/images/flags/de.png'),
-//     //     name: 'German',
-//     //   },
-//     //   {
-//     //     locale: 'pt',
-//     //     img: require('@/assets/images/flags/pt.png'),
-//     //     name: 'Portuguese',
-//     //   },
-//     ]
-//     /* eslint-disable global-require */
+    setup() {
+        /* eslint-disable global-require */
+        const locales = [{
+                locale: 'en',
+                img: require('../../public/logo/en.png'),
+                name: 'English',
+            },
+            {
+                locale: 'fr',
+                img: require('../../public/logo/gr.png'),
+                name: 'French',
+            }
+        ]
 
-//     return {
-//       locales,
-//     }
-//   },
+        /* eslint-disable global-require */
+
+        return {
+            locales,
+        }
+    },
     data() {
         return {
             //openModal:false,
@@ -242,6 +205,7 @@ export default {
                 avg_km: '',
                 car_img: '',
                 car_desc: '',
+
                 carId: ''
             },
             dialogDelete: false,
@@ -253,8 +217,8 @@ export default {
 
             // }
             currentPage: 1,
-            perPage: 1,
-            rows: 60,
+            perPage: 2,
+            totalRows: 0
         };
     },
     watch: {
@@ -280,18 +244,29 @@ export default {
 
             });
 
+        },
+        rows() {
+            return this.cars.length
         }
         // currentLocale() {
-           
+
         //     return this.locales.find(l => l.locale === this.$i18n.locale)
-           
+
         // }
 
     },
     methods: {
+        deleteData(id){
+            alert(id);
+            this.$store.dispatch('deleteCars',id);
+        },
+        linkGen(pageNum) {
+            return pageNum === 1 ? '?' : `?page=${pageNum}`
+        },
+
         confirmText(id) {
             alert(id)
-           swal({
+            swal({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this imaginary file!",
                     icon: "warning",
@@ -302,18 +277,18 @@ export default {
                     if (willDelete) {
                         console.log(willDelete, 'delete');
                         this.$store.dispatch("deleteCars", id);
-                            swal("Poof! Your imaginary file has been deleted!", {
+                        swal("Poof! Your imaginary file has been deleted!", {
                             icon: "success",
                         });
                     } else {
-                            swal("Your imaginary file is safe!");
+                        swal("Your imaginary file is safe!");
                     }
                 });
             //alert('dsds');
 
         },
         editCar(car) {
-            alert('sassa');
+            alert('edit car called');
             console.log(car, 'car');
             // this.openModal = !this.openModal;
             this.editcardata = car;
@@ -330,6 +305,7 @@ export default {
             this.cars = response.data;
             console.log(this.cars, "getting car manufacturer year");
         },
+
         //fetching data from homesidebar component for specific car kilometers
         async fetchKms(value) {
             //alert(value);
@@ -339,6 +315,7 @@ export default {
             if (response.data) this.cars = response.data;
             //console.log(this.cars, "get kms");
         },
+
         //fetching fuel type data from homesidebar component
         fetchFuel(value) {
             let data = [];
@@ -371,25 +348,25 @@ export default {
             }
 
         },
-        openGoogleMap(item){
-            alert('dsd');
-            const urlSuffix = item["23.0376° N, 72.5278° E"]
-          ? item["23.0376° N, 72.5278° E"]
-          : item["ahemdabad"] +
-            ", " +
-            item["ahemdabad"] +
-            ", " +
-            item["ahemdabad"] +
-            ", " +
-            item["320008"];
 
-            window.open("https://www.google.com/maps/search/?api=1&query=" + urlSuffix,"_blank");
+        // openGoogleMap(item){
+        //     alert('Open Google MAp method called');
+        //     const urlSuffix = item["23.0376° N, 72.5278° E"]
+        //   ? item["23.0376° N, 72.5278° E"]
+        //   : item["Ahmedabad"] +
+        //     ", " +
+        //     item["Ahmedabad"] +
+        //     ", " +
+        //     item["Ahmedabad"] +
+        //     ", " +
+        //     item["320008"];
 
-        }
+        //     window.open("https://www.google.com/maps/search/?api=1&query=" + urlSuffix,"_blank");
 
-        }
+        // }
+
     }
-
+}
 </script>
 
 <style lang="scss">

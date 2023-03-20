@@ -30,7 +30,7 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              John Doe
+             Kitty Allanson
             </p>
             <span class="user-status">Admin</span>
           </div>
@@ -38,7 +38,7 @@
             size="40"
             variant="light-primary"
             badge
-            :src="require('@/assets/images/avatars/13-small.png')"
+            :src="require('../../../public/profile/user-03.jpg')"
             class="badge-minimal"
             badge-variant="success"
           />
