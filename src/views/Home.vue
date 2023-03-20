@@ -76,7 +76,7 @@
                             Delete Car </b-button>
 
                     </b-row>
-                    <b-button @click="deleteData(car.id)">Delete</b-button>
+                  
                 </b-card-body>
 
             </b-card>
@@ -91,7 +91,8 @@
       :total-rows="rows"
       :per-page="perPage"
       aria-controls="my-card"
-    ></b-pagination>{{ currentPage }}
+    ></b-pagination>
+    <!-- {{ currentPage }} -->
     <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router ></b-pagination-nav> -->
   
 </div>
@@ -256,10 +257,7 @@ export default {
 
     },
     methods: {
-        deleteData(id){
-            alert(id);
-            this.$store.dispatch('deleteCars',id);
-        },
+       
         linkGen(pageNum) {
             return pageNum === 1 ? '?' : `?page=${pageNum}`
         },
@@ -300,7 +298,7 @@ export default {
         async fetchYear(value) {
             //alert(value);
             let response = await axios.get(
-                `http://localhost:3000/cars?make_year=${value}`
+                `http://localhost:3000/car?make_year=${value}`
             );
             this.cars = response.data;
             console.log(this.cars, "getting car manufacturer year");
@@ -310,7 +308,7 @@ export default {
         async fetchKms(value) {
             //alert(value);
             let response = await axios.get(
-                `http://localhost:3000/cars?avg_km=${value}`
+                `http://localhost:3000/car?avg_km=${value}`
             );
             if (response.data) this.cars = response.data;
             //console.log(this.cars, "get kms");
@@ -326,7 +324,7 @@ export default {
                 value.forEach(async (element) => {
 
                     console.log(element, 'element');
-                    let res = await axios.get(`http://localhost:3000/cars?car_fuel_type=${element}`
+                    let res = await axios.get(`http://localhost:3000/car?car_fuel_type=${element}`
 
                     );
 

@@ -135,13 +135,13 @@
     <b-card-body>
       <b-card-title >About: </b-card-title>
       <b-card-text class="ml-2">{{ data.about }}</b-card-text>
-      <span></span>
+      
       <b-card-title >Lives: </b-card-title>
       <b-card-text class="ml-2">{{ data.lives }}</b-card-text>
-      <span></span>
+    
       <b-card-title >Email: </b-card-title>
       <b-card-text class="ml-2">{{ data.email }}</b-card-text>
-      <span></span>
+  
       <b-card-title >WebSite: </b-card-title>
       <b-card-text class="ml-2">{{ data.website }}</b-card-text>
     </b-card-body>
