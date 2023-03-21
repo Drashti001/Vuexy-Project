@@ -4,7 +4,7 @@
     <!-- :modeltitleProps="modalTitle" -->
     <car-edit-modal modalId="editcar" :editCarProps="editcardata"></car-edit-modal>
 
-    <home-side-bar class="mr-1" @car-year-event="fetchYear($event)" @car-kms-event="fetchKms($event)" @car-fuel-event="fetchFuel($event)">
+    <home-side-bar class="mr-1" @car-range-event="fetchRange($event)" @car-year-event="fetchYear($event)" @car-kms-event="fetchKms($event)" @car-fuel-event="fetchFuel($event)">
     </home-side-bar>
 
     <div>
@@ -200,10 +200,10 @@ export default {
                 car_title: '',
                 car_model: '',
                 car_fuel_type: '',
-                car_price: '',
-                make_year: '',
+                car_price: null,
+                make_year: null,
                 location: '',
-                avg_km: '',
+                avg_km: null,
                 car_img: '',
                 car_desc: '',
 
@@ -312,6 +312,12 @@ export default {
             );
             if (response.data) this.cars = response.data;
             //console.log(this.cars, "get kms");
+        },
+
+        async fetchRange(value){
+            //let priceData = [];
+            console.log(value, ' range length');
+            this.cars=value;
         },
 
         //fetching fuel type data from homesidebar component

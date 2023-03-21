@@ -170,7 +170,7 @@
                      
                      <validation-provider
                      #default="{ errors }"
-                     rules="required|"
+                     rules="required|integer"
                      name="Number"
                  >
                     <b-form-input
@@ -372,11 +372,11 @@
                     car_title:'',
                     car_model:'',
                     car_fuel_type:'',
-                    car_price:'',
-                    make_year:'',
+                    car_price:null,
+                    make_year:null,
                     location:'',
                     car_desc:'',
-                    avg_km:'',
+                    avg_km:null,
                     carId:'',
                     images:[],
                     files:[],
@@ -486,14 +486,14 @@
               //console.log(this.car_img,'dsdsd');
              
               let data = {
-                carId:this.carId,
+                carId:Number(this.carId),
               car_title:this.car_title,
               car_model:this.car_model,
               car_fuel_type:this.selected,
-              car_price:this.car_price,
-              make_year:this.make_year,
+              car_price:Number(this.car_price),
+              make_year:Number(this.make_year),
               location:this.location,
-              avg_km:this.avg_km,
+              avg_km:Number(this.avg_km),
               car_img:this.car_img,
               images:this.files,
               car_desc:this.car_desc
