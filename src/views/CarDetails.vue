@@ -8,6 +8,7 @@
     <!-- {{ cars }} -->
     <b-card no-body v-if="cars">
 
+        <!-- {{ cars }} -->
         <b-card-body>
             <b-row class="my-2">
                 <!-- Left: Product Image Container -->
@@ -16,13 +17,18 @@
 
                         <b-carousel id="carousel-example-generic" controls indicators class="w-100" style="height:420px;">
  
-                          <b-carousel-slide style="height:500px" class="customCars" v-for="i in img" :key="i.id" :img-src="require(`../../public/cars/${i}`)" />
-<!-- 
-                            <b-carousel-slide style="height:500px" class="customCars" v-for="i in img" :key="i.id"  :img-src="`${i}`" /> -->
+                            
+                            <div v-if="cars.images.length > 0 && cars.images[0].length > 500">
+                                <b-carousel-slide style="height:500px" class="customCars" v-for="i in cars.images" :key="i"  :img-src="`${i}`" /> 
+                            </div>
+                            <div v-else>
+                                <b-carousel-slide style="height:500px" class="customCars" v-for="j in cars.images" :key="j" :img-src="require(`../../public/cars/${j}`)" />
+                            </div>
                        
                         </b-carousel>
                     </div>
                 </b-col>
+             
 
                 <!-- Right: Product Details -->
                 <b-col cols="12" sm="6">
@@ -30,7 +36,7 @@
 
                     <h4>{{ cars.car_model}}</h4>
 
-                    <h4 style="color:blueviolet">by {{ cars.car_title }}</h4>
+                    <h4 style="color:blueviolet"> by {{ cars.car_title }}</h4>
 
                     <span></span>
 
@@ -124,36 +130,27 @@ export default {
     },
     data() {
         return {
-
-            cars: [],
-            img:[],
-            getCarInfo: this.cars,
-            DataId: this.$route.params.id,
-            carFileId: this.$route.params.carId,
-            //imgurl: null,
-        }
+            cars: null,
+       }
     },
 
-    methods: {},
-    async mounted() {
-
-        try {
-            //console.log(this.$route,params.id,'id');
-            //console.log(this.$route.params.id,'carId');
-            //console.log(this.$route.params.carId,'carId2');
+    methods: {
+        async getCar(){
+            try {
             const res = await axios.get(`http://localhost:3000/car/` + this.$route.params.id);
 
             //console.log(this.$route.params.id,'carId');
+            //console.log(res,'res');
             this.cars = res.data;
-            if (this.cars.carId == this.carFileId) {
-                this.img = this.cars.images;
-            }
-            console.log(this.img, 'image');
-            console.log(this.cars, 'edit');
+         //   console.log('data',this.cars);
+         
         } catch (error) {
             console.log(error);
         }
-
+        }
+    },
+    mounted() {
+            this.getCar();
     },
 
 }

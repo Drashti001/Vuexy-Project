@@ -258,15 +258,15 @@ export default {
                 car_title: this.editCarProps.car_title,
                 car_model: this.editCarProps.car_model,
                 car_fuel_type: this.editCarProps.selected,
-                car_price: this.editCarProps.car_price,
-                make_year: this.editCarProps.make_year,
+                car_price: Number(this.editCarProps.car_price),
+                make_year: Number(this.editCarProps.make_year),
                 location: this.editCarProps.location,
-                avg_km: this.editCarProps.avg_km,
+                avg_km: Number(this.editCarProps.avg_km),
                 car_img: this.editCarProps.car_img,
                 car_desc: this.editCarProps.car_desc,
-                id: this.editCarProps.id,
+                id: Number(this.editCarProps.id),
                 images: this.editCarProps.images,
-                carId: this.editCarProps.carId
+                carId: Number(this.editCarProps.carId)
             }
             console.log(cardata, 'car data');
 

@@ -28,22 +28,15 @@
               <vue-slider v-model="sliderValue" :min="minPrice" :max="maxPrice" :interval="50000"></vue-slider>
               <!-- {{ minPrice }}
               {{ maxPrice }} -->
-              <!-- <b-form-input type="number" v-model="minPrice" placeholder="Min Price"></b-form-input>
-              <b-form-input type="number" v-model="maxPrice" placeholder="Max Price"></b-form-input> -->
+              <b-form-input type="number" v-model="minPrice" placeholder="Min Price"></b-form-input>
+              <b-form-input type="number" v-model="maxPrice" placeholder="Max Price"></b-form-input>
              
               
-            <!-- <vue-slider
-               class="mt-2"
-               :min="min"
-               :max="max"
-          
-                v-model="priceRange"
-                :direction="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              /> -->
-              <div v-for="car in filteredCars" :key="car" >
-                <!-- <h3>{{ car.car_title }}</h3>
-                <p>{{ car.car_price }}</p> -->
-              </div>
+       
+              <!-- <div v-for="car in filteredCars" :key="car" > -->
+                <!-- <h3>{{ car.car_title }}</h3>-->
+               <!-- <p>{{ car.car_price }}</p> -->
+              <!-- </div> -->
             </div>
             <span></span>
 
@@ -101,12 +94,7 @@
               />
               <!-- {{ car_kms }} -->
             </div> 
-            <!-- <div>
-              <b-form-checkbox
-              checked="true">
-
-              </b-form-checkbox>
-            </div> -->
+          
             
           </b-card>
         </div>
@@ -116,7 +104,7 @@
   
   <script>
   import {
-    BSlider,BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup
+   BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup
   } from 'bootstrap-vue'
   import VueSlider from 'vue-slider-component'
 
@@ -130,10 +118,10 @@
             car_year:'',
             car_kms:'',
             cars:[],
-            min:50000,
-            max:2000000,
+            // min:50000,
+            // max:20000000,
             minPrice:50000,
-            maxPrice:2000000,
+            maxPrice:20000000,
             sliderValue:[50000,20000000],
             years:[
               2022,
@@ -168,14 +156,14 @@
       BFormCheckbox,
       BFormCheckboxGroup,
       BFormGroup,
-      BSlider,BFormInput,
+      BFormInput,
       // 3rd Party
       VueSlider,
     },
     created(){
         this.$store.dispatch('getCars');
         this.cars = this.$store.state.cars;
-        console.log(this.cars.cars,'cars');
+        //console.log(this.cars.cars,'cars');
 
     },
     watch:{
@@ -186,12 +174,12 @@
         this.sliderValue[1] = val
       },
       sliderValue: function (val) {
-      console.log(this.sliderValue,'slidervalue')
-      this.minPrice = val[0]
-      this.maxPrice = val[1]
-      this.fetchPrice();
+        //console.log(this.sliderValue,'slidervalue')
+        this.minPrice = val[0]
+        this.maxPrice = val[1]
+        this.fetchPrice();
       
-      }
+        }
       }
       
     ,
@@ -207,7 +195,7 @@
     },
     methods:{
       fetchPrice(){
-        console.log(this.filteredCars,'filter')
+        //console.log(this.filteredCars,'filter')
         this.$emit('car-range-event',this.filteredCars);
       },
       fetchYear(){
@@ -215,32 +203,13 @@
 
       },
       fetchKiloMeters(){
-        
-       
-        console.log(this.car_kms,'kilometers');
+        //console.log(this.car_kms,'kilometers');
         this.$emit('car-kms-event',this.car_kms);
        
       },
       fetchFuel(event){
-        console.log(event);
+          //console.log(event);
           this.$emit('car-fuel-event',event);
-
-
-        //console.log(event.target.checked,'event 2');
-        //console.log("selectedFuleType", this.selectedFuleType)
-        //alert('tttt');
-        //  let result = ""
-        // console.log(event.target.value,'value getting');
-        // result= event.target.value;
-
-       
-          // if(this.selectedFuleType && this.selectedFuleType.length)
-          // {
-          //   this.$emit('car-fuel-event',this.selectedFuleType);
-          // }
-        
-        
-          // this.cars.push(response.data);
       }
     }
      

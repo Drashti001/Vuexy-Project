@@ -170,7 +170,7 @@
                      
                      <validation-provider
                      #default="{ errors }"
-                     rules="required|integer"
+                     rules="required"
                      name="Number"
                  >
                     <b-form-input
