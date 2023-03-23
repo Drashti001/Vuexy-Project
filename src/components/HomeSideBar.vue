@@ -16,16 +16,16 @@
           <!-- {{ cars.cars }} -->
           <b-card style="height:200vh">
             
-
-  
+            <!-- <p>Age:{{ age }}</p>
+             -->
             <!-- Price Slider -->
             <div class="price-slider">
               <h6 class="filter-title mt-0">
                 Price Range
               </h6> 
               
-          
-              <vue-slider v-model="sliderValue" :min="minPrice" :max="maxPrice" :interval="50000"></vue-slider>
+              <!-- <b-slider></b-slider> -->
+              <vue-slider  v-model="sliderValue" :min="minPrice" :max="maxPrice" :interval="50000"></vue-slider>
               <!-- {{ minPrice }}
               {{ maxPrice }} -->
               <b-form-input type="number" v-model="minPrice" placeholder="Min Price"></b-form-input>
@@ -52,7 +52,7 @@
                 stacked
                 :options="years"
               />
-              {{ car_year }}
+              <!-- {{ car_year }} -->
             </div> 
 
             <!-- Fuel Type -->
@@ -93,9 +93,15 @@
 
               />
               <!-- {{ car_kms }} -->
-            </div> 
+            </div > 
           
-            
+            <div  class="mt-4">
+              <b-button
+              @click="totalCars()">
+              Available Total Cars 
+              </b-button>
+
+            </div>
           </b-card>
         </div>
       </div>
@@ -104,22 +110,24 @@
   
   <script>
   import {
-   BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup
+   BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup,BSlider,BButton
   } from 'bootstrap-vue'
   import VueSlider from 'vue-slider-component'
+  import { eventBus } from "../main";
 
   
   export default {
     data(){
         return{
-          range:[10,100],
-          selectedFuleType:[],
+            range:[10,100],
+            selectedFuleType:[],
             checked:true,
             car_year:'',
             car_kms:'',
             cars:[],
-            // min:50000,
-            // max:20000000,
+            total:null,
+            min:50000,
+            max:20000000,
             minPrice:50000,
             maxPrice:20000000,
             sliderValue:[50000,20000000],
@@ -157,15 +165,24 @@
       BFormCheckboxGroup,
       BFormGroup,
       BFormInput,
+      BSlider,
+      BButton,
       // 3rd Party
       VueSlider,
     },
-    created(){
+    mounted(){
         this.$store.dispatch('getCars');
         this.cars = this.$store.state.cars;
         //console.log(this.cars.cars,'cars');
 
     },
+    // props:["age"],
+    // created:function(){
+    //   eventBus.$on("age-changed",(data)=>{
+    //     this.age = data;
+    //     eventBus.$off("age-changed");
+    //   });
+    // },
     watch:{
       minPrice:function(val){
         this.sliderValue[0] = val
@@ -194,6 +211,9 @@
     }
     },
     methods:{
+
+
+
       fetchPrice(){
         //console.log(this.filteredCars,'filter')
         this.$emit('car-range-event',this.filteredCars);
@@ -210,11 +230,17 @@
       fetchFuel(event){
           //console.log(event);
           this.$emit('car-fuel-event',event);
+      },
+      totalCars:function()  {
+         this.total = this.cars.cars.length;
+         eventBus.$emit("total-cars",this.total);
+        // console.log(this.total,'total');
+
+
       }
-    }
      
    
-  }
+  }}
   </script>
   
   <style lang="scss">

@@ -53,16 +53,17 @@
           <span>Profile</span></b-link>
         </b-dropdown-item>
 
-        <!-- <b-dropdown-item link-class="d-flex align-items-center">
+        <b-dropdown-item link-class="d-flex align-items-center">
+          <b-link :to="{ name: 'about' }"> 
           <feather-icon
             size="16"
             icon="MailIcon"
             class="mr-50"
           />
-          <span>Inbox</span>
-        </b-dropdown-item>
+          <span>About Us</span></b-link>
+        </b-dropdown-item> 
 
-        <b-dropdown-item link-class="d-flex align-items-center">
+       <!--<b-dropdown-item link-class="d-flex align-items-center">
           <feather-icon
             size="16"
             icon="CheckSquareIcon"

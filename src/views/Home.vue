@@ -1,20 +1,26 @@
 <template>
 <div>
-    <car-add-modal modalId="addcar"></car-add-modal>
-    <!-- :modeltitleProps="modalTitle" -->
-    <car-edit-modal modalId="editcar" :editCarProps="editcardata"></car-edit-modal>
+    <modal  
+        @reloadList="$store.dispatch('getCars')" 
+        :value="value" 
+        :title="title" 
+        modalId="modal" 
+        :editCarProps="editcardata">
+    </modal>
 
-    <home-side-bar class="mr-1" @car-range-event="fetchRange($event)" @car-year-event="fetchYear($event)" @car-kms-event="fetchKms($event)" @car-fuel-event="fetchFuel($event)">
+    <home-side-bar class="mr-1" 
+        @car-range-event="fetchRange($event)" 
+        @car-year-event="fetchYear($event)" 
+        @car-kms-event="fetchKms($event)" 
+        @car-fuel-event="fetchFuel($event)"
+        >
     </home-side-bar>
 
     <div>
         <b-row>
-            <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-modal.addcar variant="outline-primary" v-b-tooltip.hover.v-primary title="Open Add Car Modal">
+            <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" @click="addCar"  v-b-modal.modal variant="outline-primary" v-b-tooltip.hover.v-primary title="Open Add Car Modal">
                 Add Car
             </b-button>
-            <!-- <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-modal.addcar variant="outline-primary">
-            Edit Car
-         </b-button> -->
 
             <b-col>
 
@@ -26,8 +32,14 @@
                     </b-input-group-append>
 
                 </b-input-group>
+
+                
             </b-col>
 
+
+        </b-row>
+        <b-row class="mt-2">
+            <b-card-text v-if="totalcars">Total Available Cars :{{ totalcars }}</b-card-text>
         </b-row>
 
     </div>
@@ -68,9 +80,12 @@
 
                 <b-card-body>
                     <b-row>
-                        <b-button class="ml-2" v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-tooltip.hover.v-primary title="Open Edit Car Modal" v-b-modal.editcar variant="outline-primary" @click="editCar(car)">
+                        <b-button class="ml-2"  v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-tooltip.hover.v-primary title="Open Edit Car Modal" v-b-modal.modal variant="outline-primary" @click="editCar(car)">
                             Edit Car
                         </b-button>
+                        <!-- <b-button class="ml-2"  v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-tooltip.hover.v-primary title="Open Edit Car Modal" v-b-modal.editcar variant="outline-primary" @click="editCar(car)">
+                            Edit Car
+                        </b-button> -->
 
                         <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary" v-b-tooltip.hover.v-primary title="Delete Car" @click="confirmText(car.id)" class="ml-2">
                             Delete Car </b-button>
@@ -83,7 +98,7 @@
         </b-col>
 
 
-      
+     
     </b-row>
 
     <b-pagination
@@ -92,19 +107,17 @@
       :per-page="perPage"
       aria-controls="my-card"
     ></b-pagination>
-    <!-- {{ currentPage }} -->
-    <!-- <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router ></b-pagination-nav> -->
-  
 </div>
 </template>
 
 <script>
+
 import HomeSideBar from "@/components/HomeSideBar.vue";
-import CarAddModal from "@/components/CarAddModal.vue";
-import CarEditModal from "@/components/CarEditModal.vue";
+
 import BCardCode from "@/@core/components/b-card-code";
+import Modal from "@/components/Modal.vue";
 import axios from "axios";
-//import SideBar from './SideBar.vue'
+
 import {
     BCard,
     BCardText,
@@ -126,18 +139,19 @@ import {
     BFormRadioGroup,
     BNavItemDropdown,
     BDropdownItem,
-    BPaginationNav
+    BPaginationNav,
+
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
 import swal from 'sweetalert';
+import { eventBus } from '@/main';
 export default {
     components: {
         BCard,
         BCardText,
         BLink,
         BButton,
-        CarAddModal,
         BRow,
         BCol,
         BImg,
@@ -146,7 +160,6 @@ export default {
         BCardSubTitle,
         FeatherIcon,
         HomeSideBar,
-        CarEditModal,
         BInputGroup,
         BFormInput,
         BInputGroupAppend,
@@ -157,69 +170,48 @@ export default {
         BFormRadioGroup,
         BNavItemDropdown,
         BDropdownItem,
-        BPaginationNav
+        BPaginationNav,Modal
 
     },
     directives: {
         Ripple,
         'b-tooltip': VBTooltip,
     },
-    setup() {
-        /* eslint-disable global-require */
-        const locales = [{
-                locale: 'en',
-                img: require('../../public/logo/en.png'),
-                name: 'English',
-            },
-            {
-                locale: 'fr',
-                img: require('../../public/logo/gr.png'),
-                name: 'French',
-            }
-        ]
+    // setup() {
+    //     /* eslint-disable global-require */
+    //     const locales = [{
+    //             locale: 'en',
+    //             img: require('../../public/logo/en.png'),
+    //             name: 'English',
+    //         },
+    //         {
+    //             locale: 'fr',
+    //             img: require('../../public/logo/gr.png'),
+    //             name: 'French',
+    //         }
+    //     ]
 
-        /* eslint-disable global-require */
+    //     /* eslint-disable global-require */
 
-        return {
-            locales,
-        }
-    },
+    //     return {
+    //         locales,
+    //     }
+    // },
     data() {
         return {
-            //openModal:false,
+            openModal:false,
+            editModal:false,
             //locale: this.$i18n.locale,
-
+            value:'',
+            title:'',
             cars: [],
-            carsDuplicate: [],
-            carsData: [],
             search: '',
-            editcardata: [],
-            modalTitle: '',
-            editedIndex: -1,
-            editedCar: {
-                car_title: '',
-                car_model: '',
-                car_fuel_type: '',
-                car_price: null,
-                make_year: null,
-                location: '',
-                avg_km: null,
-                car_img: '',
-                car_desc: '',
-
-                carId: ''
-            },
-            dialogDelete: false,
-            boxTwo: '',
-            // editedCar:{
-
-            // },
-            // defaultItem:{
-
-            // }
+            addData:[],
             currentPage: 1,
             perPage: 2,
-            totalRows: 0
+            totalRows: 0,
+            totalcars:null,
+            editcardata:{}
         };
     },
     watch: {
@@ -228,18 +220,22 @@ export default {
         },
     },
     created() {
-        //alert('created called');
+      
         this.$store.dispatch("getCars");
-        //console.log(this.$store.state.cars, 'data get');
         this.cars = this.$store.state.cars;
-        //this.carsDuplicate = this.$store.state.cars;
+
     },
+   mounted(){
+    eventBus.$on("total-cars",data=>{
+        this.totalcars = data;
+    })
+   },
     computed: {
         filteredCar: function () {
 
             return this.cars.cars.filter((item) => {
                 let data = this.search;
-                //console.log(data, 'data')
+
                 return ((item.car_title).toUpperCase()).indexOf(data.toUpperCase()) !== -1;
                 // return item.car_title.match(this.search);
 
@@ -286,12 +282,14 @@ export default {
 
         },
         editCar(car) {
+            this.editModal=true;
+            this.title = false;
+            this.value = false;
             alert('edit car called');
-            console.log(car, 'car');
-            // this.openModal = !this.openModal;
+            
             this.editcardata = car;
-            console.log(this.editcardata, 'edit data');
-            // this.modalTitle = "Edit";
+            
+           
         },
 
         //fetching data from homesidebar component for specific car manufacturer data
@@ -300,41 +298,34 @@ export default {
             let response = await axios.get(
                 `http://localhost:3000/car?make_year=${value}`
             );
-            this.cars = response.data;
+            this.cars= response.data;
             console.log(this.cars, "getting car manufacturer year");
         },
 
         //fetching data from homesidebar component for specific car kilometers
         async fetchKms(value) {
-            //alert(value);
+            
             let response = await axios.get(
                 `http://localhost:3000/car?avg_km=${value}`
             );
             if (response.data) this.cars = response.data;
-            //console.log(this.cars, "get kms");
+           
         },
 
         async fetchRange(value){
-            //let priceData = [];
-            console.log(value, ' range length');
+            //console.log(value, ' range length');
             this.cars=value;
         },
 
         //fetching fuel type data from homesidebar component
         fetchFuel(value) {
             let data = [];
-            console.log(value.length, 'length');
-            //console.log(this.carsDuplicate,'fdfd');
             if (value && value.length) {
 
                 value.forEach(async (element) => {
-
-                    console.log(element, 'element');
                     let res = await axios.get(`http://localhost:3000/car?car_fuel_type=${element}`
 
                     );
-
-                    console.log(res, 'res')
                     if (res && res.data && res.data.length) {
                         (res.data).forEach(element => {
                             data.push(element)
@@ -343,8 +334,6 @@ export default {
                     } else {
                         this.cars.cars = res.data;
                     }
-
-                    //console.log(this.carsData, 'cars data');
                 });
             } else {
 
@@ -352,6 +341,16 @@ export default {
             }
 
         },
+
+        addCar(){
+            this.editcardata={},
+            this.title = true,
+            this.value = true,
+            this.openModal=true
+            
+           },
+
+      
 
         // openGoogleMap(item){
         //     alert('Open Google MAp method called');

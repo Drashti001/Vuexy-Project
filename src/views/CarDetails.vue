@@ -17,7 +17,7 @@
 
                         <b-carousel id="carousel-example-generic" controls indicators class="w-100" style="height:420px;">
  
-                            
+                            <!-- <p v-for="j in cars.images" :key="j">{{ j }}</p> -->
                             <div v-if="cars.images.length > 0 && cars.images[0].length > 500">
                                 <b-carousel-slide style="height:500px" class="customCars" v-for="i in cars.images" :key="i"  :img-src="`${i}`" /> 
                             </div>

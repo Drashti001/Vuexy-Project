@@ -16,6 +16,7 @@ import '@/libs/toastification'
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+export const eventBus = new Vue();
 
 // Composition API
 Vue.use(VueCompositionAPI)

@@ -44,6 +44,8 @@ export const actions = {
     },
     
     async updateCars({ commit },data ) {
+        alert('alertttt');
+        console.log(data.id,'fseddfrereereer');
       
         let response = await axios.put(`http://localhost:3000/car/${data.id}`,
           data
