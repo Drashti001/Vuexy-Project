@@ -343,7 +343,6 @@
             <div>
               <b-form
                 ref="form"
-               
                 class="repeater-form"
                 >
                 <!-- @submit.prevent="repeateAgain" -->
@@ -352,7 +351,7 @@
                 <b-row
                   v-for="(item, index) in member"
                   :id="item.id"
-                  :key="index"
+                  :key="item.id"
                   ref="row"
                 >
         
@@ -498,7 +497,7 @@
                       v-ripple.400="'rgba(234, 84, 85, 0.15)'"
                       variant="outline-danger"
                       class="mt-0 mt-md-2"
-                      @click="removeItem(item)"
+                      @click="removeItem(index)"
                      
                     >
                       <feather-icon
@@ -841,12 +840,13 @@ import Ripple from 'vue-ripple-directive'
       status: 'monthly',
      
       monthlyPlanShow: true,
-     monthlyPrice:49,
+      monthlyPrice:49,
       yearlyPrice:40
     }},
     mounted() {
-     
-     this.$store.dispatch("getOwner");
+      this.initTrHeight();
+     //this.$store.dispatch("getOwner");
+    
    
   },
   created() {
@@ -861,7 +861,7 @@ import Ripple from 'vue-ripple-directive'
     methods:{
       addTeam(item){
       
-        console.log('add item called',item);
+        //console.log('add item called',item);
         var data3={
           m_name:item.m_name, 
           m_address:item.m_address,
@@ -927,7 +927,7 @@ import Ripple from 'vue-ripple-directive'
             this.mainData.push(data2);
               this.$store.dispatch("addCompany",data2);
               this.companyData=this.$store.state.company
-              console.log(this.companyData,'companyData');
+              //console.log(this.companyData,'companyData');
               resolve(true)
           } else {
             reject()
@@ -972,10 +972,15 @@ import Ripple from 'vue-ripple-directive'
             m_contact:'',
             m_email:'',
             m_profile:''
-      });
+      })
+     
+
+      this.$nextTick(() => {
+        this.trAddHeight(this.$refs.row[0].offsetHeight)
+      })
     },
     removeItem(index) {
-      this.items.splice(index, 1)
+      this.member.splice(index, 1)
       this.trTrimHeight(this.$refs.row[0].offsetHeight)
     },
     initTrHeight() {
