@@ -853,7 +853,7 @@ import Ripple from 'vue-ripple-directive'
     window.addEventListener('resize', this.initTrHeight);
     this.$store.dispatch("getOwner");
     this.registerOwner = this.$store.state.owner;
-    console.log('kjdfnhgjhgghkjgkjgkjg',this.registerOwner)
+   
   },
   destroyed() {
     window.removeEventListener('resize', this.initTrHeight)
