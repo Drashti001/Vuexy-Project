@@ -3,7 +3,6 @@
     <b-row>
     <b-modal :id="modalId" ref="my-modal" hide-footer :title="title? 'Add Car' : 'Edit Car'">
        
-        {{ car_title }}
         <div>
             <validation-observer ref="simpleRules">
                         
@@ -448,7 +447,7 @@ export default {
             this.$refs['my-modal'].hide()
         },
         handleAddCar() {
-            alert('add');
+           // alert('add');
             let data = {
                 carId: Number(this.carId),
                 car_title: this.car_title,
@@ -487,7 +486,7 @@ export default {
           
         },
         handleEditCar() {
-            alert('heloo ');
+          
             var cardata = {
                 id: this.id,
                 car_title: this.car_title,
@@ -504,7 +503,7 @@ export default {
                 
 
             }
-            console.log(cardata, 'car data');
+          
             this.$store.dispatch("updateCars", cardata);
             this.hideModal();
             this.makeToast('success');

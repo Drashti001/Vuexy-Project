@@ -15,28 +15,21 @@
           
           <!-- {{ cars.cars }} -->
           <b-card style="height:200vh">
-            
-            <!-- <p>Age:{{ age }}</p>
-             -->
+          
             <!-- Price Slider -->
             <div class="price-slider">
               <h6 class="filter-title mt-0">
                 Price Range
               </h6> 
               
-              <!-- <b-slider></b-slider> -->
-              <vue-slider  v-model="sliderValue" :min="minPrice" :max="maxPrice" :interval="50000"></vue-slider>
-              <!-- {{ minPrice }}
-              {{ maxPrice }} -->
+           
+        <vue-slider  v-model="sliderValue" :min="minPrice" :max="maxPrice" :interval="50000" @change="  filteredCars()"></vue-slider>
+             
               <b-form-input type="number" v-model="minPrice" placeholder="Min Price"></b-form-input>
               <b-form-input type="number" v-model="maxPrice" placeholder="Max Price"></b-form-input>
              
-              
+            
        
-              <!-- <div v-for="car in filteredCars" :key="car" > -->
-                <!-- <h3>{{ car.car_title }}</h3>-->
-               <!-- <p>{{ car.car_price }}</p> -->
-              <!-- </div> -->
             </div>
             <span></span>
 
@@ -97,8 +90,8 @@
           
             <div  class="mt-4">
               <b-button
-              @click="totalCars()">
-              Available Total Cars 
+               @click="totalCars()">
+                   Available Total Cars 
               </b-button>
 
             </div>
@@ -110,17 +103,20 @@
   
   <script>
   import {
-   BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup,BSlider,BButton
+   BFormInput,BRow, BCol, BCard, BFormRadioGroup, BLink,BFormCheckbox,BFormCheckboxGroup,BFormGroup,BButton
   } from 'bootstrap-vue'
   import VueSlider from 'vue-slider-component'
   import { eventBus } from "../main";
+import { data } from 'vue-echarts';
 
   
   export default {
     data(){
         return{
+          data :[],
             range:[10,100],
             selectedFuleType:[],
+            count:null,
             checked:true,
             car_year:'',
             car_kms:'',
@@ -165,7 +161,7 @@
       BFormCheckboxGroup,
       BFormGroup,
       BFormInput,
-      BSlider,
+    
       BButton,
       // 3rd Party
       VueSlider,
@@ -216,13 +212,27 @@
 
       fetchPrice(){
         //console.log(this.filteredCars,'filter')
+
         this.$emit('car-range-event',this.filteredCars);
       },
       fetchYear(){
-        this.$emit('car-year-event',this.car_year);
+        // console.log(this.car_year,"filterrrrrr")
+     
+        console.log('this.cars.', this.cars);
+        const data={}
+        data =  this.cars.cars.filter((e)=>{
+                 console.log('data of cars',e);
+                // console.log('data of cars',typeof(e.make_year));
+                // console.log('this.car_year',typeof(this.car_year);
+                e.make_year >= this.car_year;
+                console.log( "fdjgdfjgfgfghjfdhjf", e.make_year >= this.car_year);
+         })
+         console.log(this.data,'final data');
+            this.$emit('car-year-event',data);
 
       },
       fetchKiloMeters(){
+
         //console.log(this.car_kms,'kilometers');
         this.$emit('car-kms-event',this.car_kms);
        
@@ -235,12 +245,10 @@
          this.total = this.cars.cars.length;
          eventBus.$emit("total-cars",this.total);
         // console.log(this.total,'total');
-
-
-      }
-     
+      },
    
-  }}
+  }
+}
   </script>
   
   <style lang="scss">

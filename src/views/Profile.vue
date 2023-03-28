@@ -206,13 +206,16 @@ export default {
         this.userdata = this.$store.state.user;
         console.log(this.userdata, 'userdata get');
     },
-    // methods:{
-    //   deleteUser(id){
-    //     console.log(id,'user id');
-    //     this.$store.dispatch('deleteUser',id);
+    methods:{
+      deleteUser(id){
+        console.log(id,'user id');
+        this.$store.dispatch('deleteUser',id);
 
-    //   }
-    // }
+      },
+      editUser(id){
+        
+      }
+    }
 
 }
 </script>

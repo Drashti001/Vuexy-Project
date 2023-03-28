@@ -7,6 +7,9 @@ import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 import cars from './cars'
 import user from './user'
+import owner from './owner'
+import company from './company'
+import team from './team'
 
 Vue.use(Vuex)
 
@@ -16,7 +19,10 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     cars,
-    user
+    user,
+    owner,
+    company,
+    team
   },
   strict: process.env.DEV,
 })

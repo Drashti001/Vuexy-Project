@@ -38,9 +38,15 @@
 
 
         </b-row>
-        <b-row class="mt-2">
-            <b-card-text v-if="totalcars">Total Available Cars :{{ totalcars }}</b-card-text>
+        <b-row class=" mt-2" v-if="count">
+            
+                <b-card-text class="text--white mr-1 ml-2" style="font-family:inherit;font-size:1.1em;font-weight:bold">{{count}} Car/Cars Available of your choice</b-card-text>
+           
         </b-row>
+     
+        <!-- <b-row class="mt-2">
+            <b-card-text v-if="totalcars">Total Available Cars :{{ totalcars }} {{ count }}</b-card-text>
+        </b-row> -->
 
     </div>
 
@@ -146,6 +152,7 @@ import Ripple from "vue-ripple-directive";
 import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
 import swal from 'sweetalert';
 import { eventBus } from '@/main';
+import { mounted } from 'vue-echarts';
 export default {
     components: {
         BCard,
@@ -211,7 +218,8 @@ export default {
             perPage: 2,
             totalRows: 0,
             totalcars:null,
-            editcardata:{}
+            editcardata:{},
+            count:null,
         };
     },
     watch: {
@@ -228,7 +236,8 @@ export default {
    mounted(){
     eventBus.$on("total-cars",data=>{
         this.totalcars = data;
-    })
+    }),
+    this.fetchYear();
    },
     computed: {
         filteredCar: function () {
@@ -259,7 +268,7 @@ export default {
         },
 
         confirmText(id) {
-            alert(id)
+           
             swal({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this imaginary file!",
@@ -285,8 +294,6 @@ export default {
             this.editModal=true;
             this.title = false;
             this.value = false;
-            alert('edit car called');
-            
             this.editcardata = car;
             
            
@@ -294,14 +301,33 @@ export default {
 
         //fetching data from homesidebar component for specific car manufacturer data
         async fetchYear(value) {
-            //alert(value);
-            let response = await axios.get(
-                `http://localhost:3000/car?make_year=${value}`
-            );
-            this.cars= response.data;
-            console.log(this.cars, "getting car manufacturer year");
-        },
-
+            
+            console.log(value,'value');
+        //     let a=[]
+        //     value.map(async (e)=>
+        //     {
+        //         console.log(e,"eee");
+                
+        //         let response = await axios.get(
+        //         `http://localhost:3000/car?make_year=${e}`)
+        //          a.push(response.data)
+                
+          
+        //     })
+        //    ;
+        //     // a.push(response.data);
+        //        ;
+        //         console.log(a,'sasasassaasas');
+        //         a.map((e)=>{
+        //             this.cars=e
+        //         })
+               
+                //this.count=this.cars.length;
+            //console.log(this.cars, "getting car manufacturer year");
+            },
+           
+        
+     
         //fetching data from homesidebar component for specific car kilometers
         async fetchKms(value) {
             
@@ -309,12 +335,14 @@ export default {
                 `http://localhost:3000/car?avg_km=${value}`
             );
             if (response.data) this.cars = response.data;
+            this.count=this.cars.length;
            
         },
 
         async fetchRange(value){
             //console.log(value, ' range length');
             this.cars=value;
+            this.count=this.cars.length;
         },
 
         //fetching fuel type data from homesidebar component
@@ -331,8 +359,10 @@ export default {
                             data.push(element)
                         });
                         this.cars.cars = data;
+                        this.count=this.cars.cars.length;
                     } else {
                         this.cars.cars = res.data;
+                        this.count=this.cars.cars.length;
                     }
                 });
             } else {
@@ -368,6 +398,9 @@ export default {
 
         // }
 
+    },
+    mounted(){
+        
     }
 }
 </script>

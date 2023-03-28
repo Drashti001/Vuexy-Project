@@ -9,5 +9,11 @@ export default [
     route: 'profile',
     icon: 'UserIcon',
   },
+  {
+    title: 'Form Wizard',
+    route: 'form',
+    icon: 'FileIcon',
+  },
   
 ]
+  

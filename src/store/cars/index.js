@@ -51,10 +51,10 @@ export const actions = {
           data
         );
         console.log(response,'response');
-       commit('UPDATE_CARS', response.data);
+        commit('UPDATE_CARS', response.data);
       }, 
       
-      async deleteCars({commit},id) {
+    async deleteCars({commit},id) {
        // console.log(id,'delete id');
         await axios.delete(`http://localhost:3000/car/${id}`);
        //console.log(id,'id fetch');
