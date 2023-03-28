@@ -4,15 +4,19 @@
 **Build Setup**
 
 **install dependencies**
+
 npm install
 
 **serve with hot reload at locahost:8080**
+
 npm run serve
 
 **build for production with minifiaction**
+
 npm run build
 
 **json-server**
+
 json-server --watch cars.json
 json-server --watch form.json
 
